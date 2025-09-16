@@ -217,13 +217,11 @@ Dla każdego komponentu opisz:
 ### 🏗️ ARCHITEKTURA KODU
 
 #### **Folder Structure**
-```
 Dokładna struktura folderów z opisem zawartości każdego katalogu
 - Naming conventions
 - Component organization
 - Asset management
 - Configuration files
-```
 
 #### **Component Architecture**
 - Atomic design principles (atoms, molecules, organisms)
