@@ -96,6 +96,15 @@ Struktura twojej odpowiedzi powinna zawierać następujące sekcje:
 - Rozszerz funkcjonalności aplikacji
 - Dodaj szczegóły dotyczące możliwości i features
 - Uwzględnij user experience i interfejs
+- Opisz główne przepływy użytkownika (user flows)
+
+🎨 INTERFEJS I DESIGN:
+- Szczegółowy opis responsywnego interfejsu użytkownika
+- Komponenty UI i ich funkcjonalności
+- Zasady projektowania (Material Design, Apple HIG, lub custom design system)
+- Kolory, typografia, ikony i animacje
+- Dostępność (accessibility) i użyteczność
+- Adaptive design dla różnych urządzeń (desktop, tablet, mobile)
 
 🛠️ STACK TECHNOLOGICZNY:
 - Frontend: (np. React, Vue.js, Angular + CSS framework)
@@ -114,59 +123,49 @@ Struktura twojej odpowiedzi powinna zawierać następujące sekcje:
 - Kluczowe katalogi
 - Separacja logiki biznesowej
 
-🔒 BEZPIECZEŃSTWO I PERFORMANCE:
-- Uwierzytelnianie i autoryzacja
-- Optymalizacje wydajności
-- Caching i skalowanie
-- Monitoring i logging
-
 🚀 DODATKOWE FUNKCJONALNOŚCI:
 - Zaawansowane features
 - Integracje
 - Możliwości rozszerzenia
 
-Przykład:
-Wejście: "stwórz chatbota który będzie generować obrazy"
+Przykład odpowiedzi:
+Wejście: "stwórz aplikację do zarządzania projektami"
 
 Wyjście:
-"Stwórz zaawansowaną aplikację chatbota do generowania obrazów z wykorzystaniem AI.
+"Stwórz kompleksową aplikację do zarządzania projektami z nowoczesną architekturą i intuicyjnym interfejsem.
 
 🎯 OPIS FUNKCJONALNY:
-Aplikacja powinna umożliwiać użytkownikom prowadzenie konwersacji tekstowych z botem, który na podstawie opisów generuje obrazy. Interfejs chatowy z historią konwersacji, możliwością zapisywania ulubionych obrazów, galerii wygenerowanych grafik z opcjami filtrowania i wyszukiwania.
+Aplikacja powinna umożliwiać tworzenie, przydzielanie i śledzenie zadań w projektach zespołowych. Dashboard z przeglądem projektów, kalendarz z deadline'ami, system powiadomień, raporty postępu i analizy produktywności zespołu.
+
+🎨 INTERFEJS I DESIGN:
+Zaprojektuj nowoczesny, minimalistyczny interfejs z jasną hierarchią wizualną. Główny dashboard z kartami projektów w layoutcie grid responsywnym (4 kolumny na desktop, 2 na tablet, 1 na mobile). Zastosuj design system z paletą kolorów: główny #3B82F6 (niebieski), akcent #10B981 (zielony), tło #F8FAFC (jasny). Sidebar z nawigacją zwijany na urządzeniach mobilnych. Komponenty: TopBar z search i notyfikacjami, ProjectCard z progress bar i avatar team members, TaskList z drag-and-drop, CalendarView z color-coded events. Animacje: smooth transitions (300ms ease-in-out), hover effects, loading skeletons. Dark mode support z automatycznym przełączaniem.
 
 🛠️ STACK TECHNOLOGICZNY:
-- Frontend: React.js z TypeScript, Tailwind CSS, Socket.io-client
+- Frontend: React.js z TypeScript, Tailwind CSS, Framer Motion, React Query
 - Backend: Node.js z Express.js, Socket.io dla real-time
-- Baza danych: PostgreSQL (metadata), Redis (cache, sesje)
-- AI API: OpenAI DALL-E, Stable Diffusion lub Midjourney
-- Storage: AWS S3 lub Cloudinary dla obrazów
+- Baza danych: PostgreSQL z Prisma ORM, Redis dla cache
+- Auth: NextAuth.js z JWT tokens
+- File Storage: AWS S3 lub Cloudinary
 
 🏗️ ARCHITEKTURA SYSTEMU:
-- Architektura mikroserwisowa z oddzielnym serwisem dla generowania obrazów
-- API Gateway do routingu żądań
-- Queue system (Bull/Redis) dla asynchronicznego przetwarzania
-- WebSocket connections dla real-time komunikacji
+- Architektura modularna z separation of concerns
+- RESTful API z GraphQL endpoint dla złożonych zapytań
+- Real-time updates przez WebSockets
+- Event-driven architecture z message queue
 
 📁 STRUKTURA PROJEKTU:
-/frontend (React app)
-/backend (/api, /services, /middleware, /models)
-/image-service (mikroservice do AI)
-/shared (typy TypeScript, utils)
-/docs (dokumentacja API)
-
-🔒 BEZPIECZEŃSTWO I PERFORMANCE:
-- JWT authentication z refresh tokens
-- Rate limiting per user/IP
-- Input validation i sanitization
-- CDN dla obrazów, lazy loading
-- Monitoring z Prometheus/Grafana
+/frontend (/components, /pages, /hooks, /store, /utils, /styles)
+/backend (/routes, /controllers, /services, /models, /middleware)
+/shared (/types, /constants, /validators)
+/database (/migrations, /seeds)
 
 🚀 DODATKOWE FUNKCJONALNOŚCI:
-- Edycja wygenerowanych obrazów (crop, resize, filtry)
-- Współdzielenie galerii między użytkownikami
-- API webhooks dla integracji z zewnętrznymi systemami
+- Integracja z Calendar (Google, Outlook)
+- Export raportów do PDF/Excel
 - Mobile app (React Native)
-- Admin panel do zarządzania użytkownikami i contentem"`;
+- Slack/Teams notifications
+- Time tracking z automatyczną analizą produktywności
+- Templates dla typowych projektów"`;
 
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -261,10 +260,13 @@ document.addEventListener('DOMContentLoaded', () => {
 window.demoMode = () => {
     const enhancer = new PromptEnhancer();
     const demoPrompt = "stwórz aplikację do zarządzania zadaniami";
-    const demoResponse = `Stwórz kompleksową aplikację do zarządzania zadaniami z nowoczesną architekturą i funkcjonalnościami współpracy zespołowej.
+    const demoResponse = `Stwórz kompleksową aplikację do zarządzania zadaniami z nowoczesną architekturą i intuicyjnym interfejsem.
 
 🎯 OPIS FUNKCJONALNY:
-Aplikacja powinna umożliwiać tworzenie, przydzielanie i śledzenie zadań w projektach zespołowych. Dashboard z widokiem kalendarza, kanban board, listy zadań z filtrami według priorytetów, statusów i przypisanych osób. System notyfikacji real-time, komentarze, załączniki, czasomierz pracy, raporty produktywności.
+Aplikacja powinna umożliwiać tworzenie, przydzielanie i śledzenie zadań w projektach zespołowych. Dashboard z przeglądem projektów, kalendarz z deadline'ami, system powiadomień, raporty postępu i analizy produktywności zespołu. Kanban board z drag-and-drop, filtry według priorytetów i statusów, czasomierz pracy, komentarze i załączniki.
+
+🎨 INTERFEJS I DESIGN:
+Zaprojektuj nowoczesny, minimalistyczny interfejs z jasną hierarchią wizualną. Główny dashboard z kartami projektów w responsywnym grid layout (3 kolumny na desktop, 2 na tablet, 1 na mobile). Design system z paletą: primary #3B82F6 (niebieski), success #10B981 (zielony), background #F8FAFC. Sidebar z nawigacją zwijany na mobile. Komponenty: TopBar z search i notyfikacjami, ProjectCard z progress bar, TaskList z drag-and-drop, Calendar z color-coded events. Smooth animations (300ms ease-in-out), hover effects, loading states. Dark mode z automatycznym przełączaniem na podstawie preferencji systemu.
 
 🛠️ STACK TECHNOLOGICZNY:
 - Frontend: React.js z TypeScript, Tailwind CSS, Framer Motion
@@ -275,31 +277,20 @@ Aplikacja powinna umożliwiać tworzenie, przydzielanie i śledzenie zadań w pr
 - Email: SendGrid lub Nodemailer
 
 🏗️ ARCHITEKTURA SYSTEMU:
-- Architektura monolityczna modularna z możliwością przejścia na mikroserwisy
+- Architektura modularna z separation of concerns
 - RESTful API z GraphQL endpoint dla złożonych zapytań
 - WebSocket connections dla real-time updates
 - Event-driven architecture z message queue (Bull/Redis)
 
 📁 STRUKTURA PROJEKTU:
-/frontend
-  /src (/components, /pages, /hooks, /store, /utils)
-/backend
-  /src (/routes, /controllers, /services, /models, /middleware)
+/frontend (/components, /pages, /hooks, /store, /utils, /styles)
+/backend (/routes, /controllers, /services, /models, /middleware)
 /shared (/types, /constants, /validators)
 /database (/migrations, /seeds)
 /docs (/api-documentation)
 
-🔒 BEZPIECZEŃSTWO I PERFORMANCE:
-- Uwierzytelnianie dwuetapowe (2FA)
-- Role-based access control (RBAC)
-- Rate limiting per endpoint
-- Input validation z Joi/Zod
-- SQL injection protection
-- Redis caching dla często używanych danych
-- Database indexing i query optimization
-
 🚀 DODATKOWE FUNKCJONALNOŚCI:
-- Integration z Calendar (Google Calendar, Outlook)
+- Integracja z Calendar (Google Calendar, Outlook)
 - Slack/Teams webhooks dla notyfikacji
 - Time tracking z raportami produktywności
 - Templates dla często używanych projektów
