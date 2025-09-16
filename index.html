@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt for Apps - AI Enhancement</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Prompt for Apps</h1>
+            <p>Ulepszaj swoje instrukcje AI za pomocą sztucznej inteligencji</p>
+        </header>
+
+        <div class="chat-container">
+            <div class="messages" id="messages">
+                <div class="message bot">
+                    <div class="message-content">
+                        <p>Witaj! Jestem twoim asystentem do ulepszania instrukcji AI. Wyślij mi prostą instrukcję tworzenia aplikacji, a ja ją rozwinę technicznie.</p>
+                        <p><strong>Przykład:</strong> "stwórz chatbota który będzie generować obrazy"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="userInput" 
+                        placeholder="Opisz aplikację, którą chcesz stworzyć..."
+                        rows="3"
+                        maxlength="500"
+                    ></textarea>
+                    <button id="sendButton" class="send-button">
+                        <span>Wyślij</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <div class="char-counter">
+                    <span id="charCount">0</span>/500
+                </div>
+            </div>
+        </div>
+
+        <div class="api-config">
+            <details>
+                <summary>⚙️ Konfiguracja API</summary>
+                <div class="config-content">
+                    <label for="apiKey">Klucz API OpenAI:</label>
+                    <input type="password" id="apiKey" placeholder="sk-..." />
+                    <small>Twój klucz API jest przechowywany lokalnie w przeglądarce</small>
+                </div>
+            </details>
+        </div>
+
+        <footer>
+            <p>Zbudowano z ❤️ dla lepszych instrukcji AI</p>
+        </footer>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Ulepszam twoją instrukcję...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
