@@ -1,0 +1,17 @@
+{
+  "name": "prompt-for-apps",
+  "version": "1.0.0",
+  "description": "AI-powered application that enhances and expands AI instructions for app development",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server --port=3000"
+  },
+  "keywords": ["ai", "prompt", "enhancement", "app-development", "chatbot"],
+  "author": "Artur Wyrosłak",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  }
+}
