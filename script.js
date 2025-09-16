@@ -147,27 +147,26 @@ Zaprojektuj nowoczesny, minimalistyczny interfejs z jasną hierarchią wizualną
 - Time tracking z automatyczną analizą produktywności
 - Templates dla typowych projektów"`;
 
-        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=AIzaSyBIQAq-rkn_-rf7ifmLANt1kyYsLZ-XQPk', {
+        const response = await fetch('https://text.pollinations.ai/openai', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                contents: [
+                model: "openai",
+                messages: [
+                    {
+                        role: "system",
+                        content: systemPrompt
+                    },
                     {
                         role: "user",
-                        parts: [
-                            {
-                                text: `${systemPrompt}\n\nUżytkownik: ${originalPrompt}`
-                            }
-                        ]
+                        content: originalPrompt
                     }
                 ],
-                generationConfig: {
-                    thinkingConfig: {
-                        thinkingBudget: 0
-                    }
-                }
+                temperature: 0.7,
+                stream: false,
+                private: false
             })
         });
 
@@ -177,7 +176,7 @@ Zaprojektuj nowoczesny, minimalistyczny interfejs z jasną hierarchią wizualną
         }
 
         const data = await response.json();
-        return data.candidates[0].content.parts[0].text;
+        return data.choices[0].message.content;
     }
 
     addMessage(content, sender) {
