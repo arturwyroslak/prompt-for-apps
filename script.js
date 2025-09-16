@@ -188,6 +188,22 @@ Zaprojektuj nowoczesny, minimalistyczny interfejs z jasną hierarchią wizualną
         const messageContent = document.createElement('div');
         messageContent.className = 'message-content';
         
+        // Add copy button for bot messages
+        if (sender === 'bot') {
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Kopiuj
+            `;
+            
+            copyButton.addEventListener('click', () => this.copyToClipboard(content, copyButton));
+            messageContent.appendChild(copyButton);
+        }
+        
         // Format the content with paragraphs
         const paragraphs = content.split('\n').filter(p => p.trim());
         paragraphs.forEach(paragraph => {
@@ -201,6 +217,69 @@ Zaprojektuj nowoczesny, minimalistyczny interfejs z jasną hierarchią wizualną
         
         // Scroll to bottom
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    async copyToClipboard(content, button) {
+        try {
+            await navigator.clipboard.writeText(content);
+            
+            // Update button to show success
+            const originalContent = button.innerHTML;
+            button.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+                Skopiowano!
+            `;
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.innerHTML = originalContent;
+                button.classList.remove('copied');
+            }, 2000);
+            
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+            // Fallback for older browsers
+            this.fallbackCopyToClipboard(content, button);
+        }
+    }
+
+    fallbackCopyToClipboard(content, button) {
+        const textArea = document.createElement('textarea');
+        textArea.value = content;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            
+            // Update button to show success
+            const originalContent = button.innerHTML;
+            button.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+                Skopiowano!
+            `;
+            button.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.innerHTML = originalContent;
+                button.classList.remove('copied');
+            }, 2000);
+            
+        } catch (err) {
+            console.error('Fallback copy failed: ', err);
+        }
+        
+        document.body.removeChild(textArea);
     }
 
     showError(message) {
