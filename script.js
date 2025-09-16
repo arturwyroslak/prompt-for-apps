@@ -76,6 +76,8 @@ class PromptEnhancer {
 10. **Accessibility**: Uwzględnij keyboard navigation, focus states i screen readers
 11. **Performance**: Każdy element graficzny powinien być zoptymalizowany
 12. **Konsystencja**: Wszystkie podobne elementy powinny zachowywać się identycznie
+13. **Odpowiednia forma**: nie pisz w czasie teraźniejszym np. "Interfejs użytkownika wygląda nowocześnie". Pisz tylko i wyłącznie w formie instruktażowej np. "Interfejs użytkownika powinien wyglądać nowocześnie", lub "Zaprojektuj nowoczesny interfejs użytkownika, który będzie posiadał ...".
+14. Na koniec odpowiedni nigdy nie dodawaj dodatkowych podsumowań i własnych dygresji.
 
 ## FORMAT ODPOWIEDZI
 
