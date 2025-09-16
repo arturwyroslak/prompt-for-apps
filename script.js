@@ -83,18 +83,90 @@ class PromptEnhancer {
     async enhancePrompt(originalPrompt) {
         const systemPrompt = `Jesteś ekspertem w tworzeniu aplikacji i architekturze systemów. Twoim zadaniem jest ulepszanie prostych instrukcji tworzenia aplikacji, rozwijając je technicznie przy zachowaniu tej samej formy osobowej.
 
-Zasady:
+ZASADY OGÓLNE:
 1. Zachowaj formę osobową z oryginału (np. "stwórz" → "stwórz")
-2. Dodaj szczegóły techniczne, architekturę, technologie
-3. Uwzględnij najlepsze praktyki i standardy branżowe
-4. Rozwiń funkcjonalności i możliwości
-5. Zaproponuj konkretne technologie i narzędzia
-6. Odpowiadaj w języku polskim
-7. Zachowaj profesjonalny ale przystępny ton
+2. Odpowiadaj w języku polskim
+3. Zachowaj profesjonalny ale przystępny ton
+4. Uwzględnij najlepsze praktyki i standardy branżowe
+
+FORMAT ODPOWIEDZI:
+Struktura twojej odpowiedzi powinna zawierać następujące sekcje:
+
+🎯 OPIS FUNKCJONALNY:
+- Rozszerz funkcjonalności aplikacji
+- Dodaj szczegóły dotyczące możliwości i features
+- Uwzględnij user experience i interfejs
+
+🛠️ STACK TECHNOLOGICZNY:
+- Frontend: (np. React, Vue.js, Angular + CSS framework)
+- Backend: (np. Node.js/Express, Python/Django, Java/Spring)
+- Baza danych: (np. PostgreSQL, MongoDB, Redis)
+- Dodatkowe narzędzia i biblioteki
+
+🏗️ ARCHITEKTURA SYSTEMU:
+- Typ architektury (monolityczna, mikroserwisy, serverless)
+- Struktura komponentów
+- Integracje z zewnętrznymi API
+- Wzorce projektowe
+
+📁 STRUKTURA PROJEKTU:
+- Organizacja folderów i plików
+- Kluczowe katalogi
+- Separacja logiki biznesowej
+
+🔒 BEZPIECZEŃSTWO I PERFORMANCE:
+- Uwierzytelnianie i autoryzacja
+- Optymalizacje wydajności
+- Caching i skalowanie
+- Monitoring i logging
+
+🚀 DODATKOWE FUNKCJONALNOŚCI:
+- Zaawansowane features
+- Integracje
+- Możliwości rozszerzenia
 
 Przykład:
 Wejście: "stwórz chatbota który będzie generować obrazy"
-Wyjście: "Stwórz zaawansowaną aplikację chatbota z integracją API do generowania obrazów (DALL-E, Midjourney lub Stable Diffusion). Aplikacja powinna mieć architekturę mikroserwisową z oddzielnym backendem Node.js/Express do obsługi logiki chatbota, frontend React/Vue.js dla interfejsu użytkownika, oraz bazę danych (MongoDB/PostgreSQL) do przechowywania historii konwersacji i wygenerowanych obrazów. Zaimplementuj system kolejkowania zadań (Redis/Bull) dla asynchronicznego przetwarzania żądań generowania obrazów, dodaj mechanizm cache'owania, uwierzytelnianie użytkowników (JWT), system moderacji treści i API rate limiting. Uwzględnij responsywny design, obsługę wielojęzyczności oraz możliwość eksportowania wygenerowanych obrazów w różnych formatach."`;
+
+Wyjście:
+"Stwórz zaawansowaną aplikację chatbota do generowania obrazów z wykorzystaniem AI.
+
+🎯 OPIS FUNKCJONALNY:
+Aplikacja powinna umożliwiać użytkownikom prowadzenie konwersacji tekstowych z botem, który na podstawie opisów generuje obrazy. Interfejs chatowy z historią konwersacji, możliwością zapisywania ulubionych obrazów, galerii wygenerowanych grafik z opcjami filtrowania i wyszukiwania.
+
+🛠️ STACK TECHNOLOGICZNY:
+- Frontend: React.js z TypeScript, Tailwind CSS, Socket.io-client
+- Backend: Node.js z Express.js, Socket.io dla real-time
+- Baza danych: PostgreSQL (metadata), Redis (cache, sesje)
+- AI API: OpenAI DALL-E, Stable Diffusion lub Midjourney
+- Storage: AWS S3 lub Cloudinary dla obrazów
+
+🏗️ ARCHITEKTURA SYSTEMU:
+- Architektura mikroserwisowa z oddzielnym serwisem dla generowania obrazów
+- API Gateway do routingu żądań
+- Queue system (Bull/Redis) dla asynchronicznego przetwarzania
+- WebSocket connections dla real-time komunikacji
+
+📁 STRUKTURA PROJEKTU:
+/frontend (React app)
+/backend (/api, /services, /middleware, /models)
+/image-service (mikroservice do AI)
+/shared (typy TypeScript, utils)
+/docs (dokumentacja API)
+
+🔒 BEZPIECZEŃSTWO I PERFORMANCE:
+- JWT authentication z refresh tokens
+- Rate limiting per user/IP
+- Input validation i sanitization
+- CDN dla obrazów, lazy loading
+- Monitoring z Prometheus/Grafana
+
+🚀 DODATKOWE FUNKCJONALNOŚCI:
+- Edycja wygenerowanych obrazów (crop, resize, filtry)
+- Współdzielenie galerii między użytkownikami
+- API webhooks dla integracji z zewnętrznymi systemami
+- Mobile app (React Native)
+- Admin panel do zarządzania użytkownikami i contentem"`;
 
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -108,7 +180,7 @@ Wyjście: "Stwórz zaawansowaną aplikację chatbota z integracją API do genero
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: originalPrompt }
                 ],
-                max_tokens: 1000,
+                max_tokens: 2000,
                 temperature: 0.7
             })
         });
@@ -189,7 +261,53 @@ document.addEventListener('DOMContentLoaded', () => {
 window.demoMode = () => {
     const enhancer = new PromptEnhancer();
     const demoPrompt = "stwórz aplikację do zarządzania zadaniami";
-    const demoResponse = "Stwórz kompleksową aplikację do zarządzania zadaniami (Task Management System) z wykorzystaniem architektury full-stack. Backend zbuduj w Node.js z frameworkiem Express.js, wykorzystaj bazę danych PostgreSQL z Prisma ORM do zarządzania danymi. Frontend stwórz w React.js z TypeScript, zastosuj Tailwind CSS do stylizacji i Zustand do zarządzania stanem aplikacji. Zaimplementuj system uwierzytelniania z JWT tokenami, role użytkowników (admin, manager, user), real-time powiadomienia przez WebSockets, system komentarzy i załączników, filtry i sortowanie zadań, kalendarz z deadline'ami, dashboard z analityką, eksport danych do PDF/Excel oraz obsługę drag-and-drop do zmiany statusów zadań. Dodaj również funkcjonalności jak etykiety, priorytety, przydzielanie zadań zespołom, historia zmian oraz integrację z zewnętrznymi API (kalendarz, email, Slack).";
+    const demoResponse = `Stwórz kompleksową aplikację do zarządzania zadaniami z nowoczesną architekturą i funkcjonalnościami współpracy zespołowej.
+
+🎯 OPIS FUNKCJONALNY:
+Aplikacja powinna umożliwiać tworzenie, przydzielanie i śledzenie zadań w projektach zespołowych. Dashboard z widokiem kalendarza, kanban board, listy zadań z filtrami według priorytetów, statusów i przypisanych osób. System notyfikacji real-time, komentarze, załączniki, czasomierz pracy, raporty produktywności.
+
+🛠️ STACK TECHNOLOGICZNY:
+- Frontend: React.js z TypeScript, Tailwind CSS, Framer Motion
+- Backend: Node.js z Express.js, Socket.io dla real-time
+- Baza danych: PostgreSQL z Prisma ORM, Redis dla cache i sesji
+- Authentication: NextAuth.js z JWT
+- File Storage: AWS S3 lub Cloudinary
+- Email: SendGrid lub Nodemailer
+
+🏗️ ARCHITEKTURA SYSTEMU:
+- Architektura monolityczna modularna z możliwością przejścia na mikroserwisy
+- RESTful API z GraphQL endpoint dla złożonych zapytań
+- WebSocket connections dla real-time updates
+- Event-driven architecture z message queue (Bull/Redis)
+
+📁 STRUKTURA PROJEKTU:
+/frontend
+  /src (/components, /pages, /hooks, /store, /utils)
+/backend
+  /src (/routes, /controllers, /services, /models, /middleware)
+/shared (/types, /constants, /validators)
+/database (/migrations, /seeds)
+/docs (/api-documentation)
+
+🔒 BEZPIECZEŃSTWO I PERFORMANCE:
+- Uwierzytelnianie dwuetapowe (2FA)
+- Role-based access control (RBAC)
+- Rate limiting per endpoint
+- Input validation z Joi/Zod
+- SQL injection protection
+- Redis caching dla często używanych danych
+- Database indexing i query optimization
+
+🚀 DODATKOWE FUNKCJONALNOŚCI:
+- Integration z Calendar (Google Calendar, Outlook)
+- Slack/Teams webhooks dla notyfikacji
+- Time tracking z raportami produktywności
+- Templates dla często używanych projektów
+- Export danych do Excel/PDF
+- Mobile app (React Native)
+- Dark/light mode
+- Multi-language support
+- Offline mode z synchronizacją`;
     
     setTimeout(() => {
         enhancer.addMessage(demoPrompt, 'user');
