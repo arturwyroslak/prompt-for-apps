@@ -164,9 +164,7 @@ Zaprojektuj nowoczesny, minimalistyczny interfejs z jasną hierarchią wizualną
                         content: originalPrompt
                     }
                 ],
-                temperature: 0.7,
-                stream: false,
-                private: false
+                seed: 42
             })
         });
 
