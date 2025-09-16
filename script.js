@@ -1,19 +1,16 @@
 class PromptEnhancer {
     constructor() {
-        this.apiKey = localStorage.getItem('openai_api_key') || '';
         this.init();
     }
 
     init() {
         this.bindEvents();
-        this.loadApiKey();
         this.updateCharCounter();
     }
 
     bindEvents() {
         const sendButton = document.getElementById('sendButton');
         const userInput = document.getElementById('userInput');
-        const apiKeyInput = document.getElementById('apiKey');
 
         sendButton.addEventListener('click', () => this.handleSendMessage());
         
@@ -25,18 +22,6 @@ class PromptEnhancer {
         });
 
         userInput.addEventListener('input', () => this.updateCharCounter());
-        
-        apiKeyInput.addEventListener('change', (e) => {
-            this.apiKey = e.target.value;
-            localStorage.setItem('openai_api_key', this.apiKey);
-        });
-    }
-
-    loadApiKey() {
-        const apiKeyInput = document.getElementById('apiKey');
-        if (this.apiKey) {
-            apiKeyInput.value = this.apiKey;
-        }
     }
 
     updateCharCounter() {
@@ -51,11 +36,6 @@ class PromptEnhancer {
 
         if (!message) {
             this.showError('Proszę wprowadzić instrukcję do ulepszenia.');
-            return;
-        }
-
-        if (!this.apiKey) {
-            this.showError('Proszę skonfigurować klucz API OpenAI w sekcji konfiguracji.');
             return;
         }
 
@@ -167,20 +147,27 @@ Zaprojektuj nowoczesny, minimalistyczny interfejs z jasną hierarchią wizualną
 - Time tracking z automatyczną analizą produktywności
 - Templates dla typowych projektów"`;
 
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=AIzaSyBIQAq-rkn_-rf7ifmLANt1kyYsLZ-XQPk', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.apiKey}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'gpt-4',
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: originalPrompt }
+                contents: [
+                    {
+                        role: "user",
+                        parts: [
+                            {
+                                text: `${systemPrompt}\n\nUżytkownik: ${originalPrompt}`
+                            }
+                        ]
+                    }
                 ],
-                max_tokens: 2000,
-                temperature: 0.7
+                generationConfig: {
+                    thinkingConfig: {
+                        thinkingBudget: 0
+                    }
+                }
             })
         });
 
@@ -190,7 +177,7 @@ Zaprojektuj nowoczesny, minimalistyczny interfejs z jasną hierarchią wizualną
         }
 
         const data = await response.json();
-        return data.choices[0].message.content;
+        return data.candidates[0].content.parts[0].text;
     }
 
     addMessage(content, sender) {
